@@ -1,3 +1,6 @@
-test('Jest works', () => {
-	expect(3).toBe(3)
+import { part1 } from './'
+
+test('Part 1', () => {
+	const input = [1, 2, 3]
+	expect(part1(input)).toBe(2)
 })
