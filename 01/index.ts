@@ -2,7 +2,8 @@ import { run, getInputInts } from '../util'
 
 /**
  * "Couldn't you do this more elegantly in a functional style?" I hear you say.
- * Could I? Absolutely. Would it be as universally easy to read? I would argue no.
+ * Could I? Absolutely. Would it be as universally easy to read? I would argue
+ * no.
  */
 export function part1(nums: number[]) {
 	let numIncreases = 0
