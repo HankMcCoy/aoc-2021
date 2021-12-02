@@ -5,23 +5,16 @@ interface Location {
 	depth: number
 }
 export function part1(cmds: string[]): Location {
-	return cmds.reduce(
-		({ position, depth }, cmd) => {
-			const [_, dir, strVal] = /(forward|down|up) (\d+)/.exec(cmd) ?? []
-			const val = parseInt(strVal, 10)
-			switch (dir) {
-				case 'forward':
-					return { position: position + val, depth }
-				case 'up':
-					return { position, depth: depth - val }
-				case 'down':
-					return { position, depth: depth + val }
-				default:
-					throw new Error('Invalid direction')
-			}
-		},
-		{ position: 0, depth: 0 }
-	)
+	const loc = { position: 0, depth: 0 }
+	cmds.forEach((cmd) => {
+		const dir = cmd.split(' ')[0]
+		const val = parseInt(cmd.split(' ')[1])
+
+		if (dir === 'forward') loc.position += val
+		else if (dir === 'up') loc.depth -= val
+		else if (dir === 'down') loc.depth += val
+	})
+	return loc
 }
 
 interface LocAndAim {
@@ -30,23 +23,21 @@ interface LocAndAim {
 	aim: number
 }
 export function part2(cmds: string[]): LocAndAim {
-	return cmds.reduce(
-		({ position, depth, aim }, cmd) => {
-			const [_, dir, strVal] = /(forward|down|up) (\d+)/.exec(cmd) ?? []
-			const val = parseInt(strVal, 10)
-			switch (dir) {
-				case 'forward':
-					return { position: position + val, depth: depth + val * aim, aim }
-				case 'up':
-					return { position, depth, aim: aim - val }
-				case 'down':
-					return { position, depth, aim: aim + val }
-				default:
-					throw new Error('Invalid direction')
-			}
-		},
-		{ position: 0, depth: 0, aim: 0 }
-	)
+	const loc = { position: 0, depth: 0, aim: 0 }
+	cmds.forEach((cmd) => {
+		const dir = cmd.split(' ')[0]
+		const val = parseInt(cmd.split(' ')[1])
+
+		if (dir === 'forward') {
+			loc.position += val
+			loc.depth += val * loc.aim
+		} else if (dir === 'up') {
+			loc.aim -= val
+		} else if (dir === 'down') {
+			loc.aim += val
+		}
+	})
+	return loc
 }
 
 run(() => {
