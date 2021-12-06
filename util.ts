@@ -7,11 +7,11 @@ export const getInputInts = (dir: string) =>
 export const getInputFloats = (dir: string) =>
 	getInputLines(dir).map((t) => parseFloat(t))
 
-export function getInputLines(dir: string) {
+export function getInputLines(dir: string, removeEmpty: boolean = true) {
 	const input = readFileSync(path.join(dir, './input.txt'), {
 		encoding: 'utf-8',
 	})
-	return input.split('\n').filter((x) => x)
+	return input.split('\n').filter((x) => (removeEmpty ? x : true))
 }
 
 /**
