@@ -25,8 +25,6 @@ test('Part 1', () => {
 	expect(part1(input)).toBe(4512)
 })
 
-/*
 test('Part 2', () => {
-	expect(part2(input)).toBe(230)
+	expect(part2(input)).toBe(1924)
 })
-*/
