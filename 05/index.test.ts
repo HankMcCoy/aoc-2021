@@ -29,6 +29,13 @@ test('getPointsFromLine - Works with horizontal lines', () => {
 	expect(points.find((p) => p.x === 15 && p.y === 5)).toBeTruthy()
 })
 
+test('getPointsFromLine - Works with diagonal lines', () => {
+	const points = getPointsFromLine({ p1: { x: 9, y: 7 }, p2: { x: 7, y: 9 } })
+	expect(points.length).toBe(3)
+	expect(points.find((p) => p.x === 9 && p.y === 7)).toBeTruthy()
+	expect(points.find((p) => p.x === 7 && p.y === 9)).toBeTruthy()
+})
+
 test('Part 2', () => {
 	expect(part2(input)).toBe(12)
 })

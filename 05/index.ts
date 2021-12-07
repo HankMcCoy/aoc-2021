@@ -25,22 +25,15 @@ const parseLine = (str: string): Line => {
 }
 
 export const getPointsFromLine = ({ p1, p2 }: Line): Point[] => {
-	if (p1.x === p2.x) {
-		const start = Math.min(p1.y, p2.y)
-		const stop = Math.max(p1.y, p2.y)
-		return new Array<number>(stop - start + 1)
-			.fill(start)
-			.map((c, i) => c + i)
-			.map((y) => ({ x: p1.x, y }))
-	} else if (p1.y === p2.y) {
-		const start = Math.min(p1.x, p2.x)
-		const stop = Math.max(p1.x, p2.x)
-		return new Array<number>(stop - start + 1)
-			.fill(start)
-			.map((c, i) => c + i)
-			.map((x) => ({ x, y: p1.y }))
-	}
-	throw new Error('Not Implemented: lines other than horizontal or vertical')
+	// Gross ternaries
+	const dY = p1.y === p2.y ? 0 : p1.y < p2.y ? 1 : -1
+	const dX = p1.x === p2.x ? 0 : p1.x < p2.x ? 1 : -1
+
+	return new Array<Point>(
+		Math.max(Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y)) + 1
+	)
+		.fill({ x: p1.x, y: p1.y })
+		.map((p, i) => ({ x: p.x + dX * i, y: p.y + dY * i }))
 }
 
 export const getOverlapCounts = (lines: Line[]): Map<string, number> => {
@@ -56,20 +49,25 @@ export const getOverlapCounts = (lines: Line[]): Map<string, number> => {
 	return counts
 }
 
-const isHorizOrVert = ({ p1, p2 }: Line): boolean => {
-	return p1.x === p2.x || p1.y === p2.y
-}
+const isHorizOrVert = ({ p1, p2 }: Line): boolean =>
+	p1.x === p2.x || p1.y === p2.y
 
 export function part1(input: string[]): number {
 	// Get all the horizontal and vertical lines
 	const lines = input.map((l) => parseLine(l)).filter(isHorizOrVert)
 	const counts = getOverlapCounts(lines)
+
 	// Return how many points show up at least twice
 	return [...counts.values()].filter((x) => x >= 2).length
 }
 
 export function part2(input: string[]): number {
-	return 0
+	// Get all the lines
+	const lines = input.map((l) => parseLine(l))
+	const counts = getOverlapCounts(lines)
+
+	// Return how many points show up at least twice
+	return [...counts.values()].filter((x) => x >= 2).length
 }
 
 run(() => {
