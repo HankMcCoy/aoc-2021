@@ -1,4 +1,11 @@
-import { isInBounds, isLowPoint, parseInput, part1, part2 } from './'
+import {
+	getHigherNeighbors,
+	isInBounds,
+	isLowPoint,
+	parseInput,
+	part1,
+	part2,
+} from './'
 
 const input = `2199943210
 3987894921
@@ -20,6 +27,12 @@ test('Part 1', () => {
 	expect(part1(input)).toBe(15)
 })
 
+test('getHigherNeighbors', () => {
+	const higherNeighbors = getHigherNeighbors(grid, '6,0')
+	expect(higherNeighbors).toContain('5,0')
+	expect(higherNeighbors).toContain('6,1')
+	expect(higherNeighbors.length).toBe(2)
+})
 test('Part 2', () => {
-	expect(part2(input)).toBe(0)
+	expect(part2(input)).toBe(1134)
 })
