@@ -1,4 +1,4 @@
-import { part1, part2, getEntryOutput } from './'
+import { part1, part2, getEntryOutput, getEntryMap } from './'
 
 const input =
 	`be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
@@ -22,12 +22,24 @@ test('Part 2', () => {
 	expect(part2(input)).toBe(61229)
 })
 
+test('getEntryMap', () => {
+	const entryMap = getEntryMap(
+		'acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab'.split(' ')
+	)
+	expect(entryMap.d).toBe('a')
+	expect(entryMap.e).toBe('b')
+	expect(entryMap.a).toBe('c')
+	expect(entryMap.f).toBe('d')
+	expect(entryMap.g).toBe('e')
+	expect(entryMap.b).toBe('f')
+	expect(entryMap.c).toBe('g')
+})
+
 test('getEntryOutput', () => {
-	expect(
-		getEntryOutput({
-			signalPatterns:
-				'be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb',
-			outputValues: 'fdgacbe cefdb cefbgd gcbe',
-		})
-	).toBe(8394)
+	const entryMap = getEntryMap(
+		'acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab'.split(' ')
+	)
+	expect(getEntryOutput(entryMap, 'cdfeb fcadb cdfeb cdbaf'.split(' '))).toBe(
+		5353
+	)
 })

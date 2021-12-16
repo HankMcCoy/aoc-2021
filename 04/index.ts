@@ -2,6 +2,9 @@ import { run, getInputLines } from '../util'
 
 const BOARD_SIZE = 5
 
+const x = [1, 2, 3]
+console.log(x[2])
+
 type Board = number[][]
 interface BingoSystem {
 	drawOrder: number[]
