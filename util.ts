@@ -25,3 +25,40 @@ export function run(fnToRun: () => void) {
 		fnToRun()
 	}
 }
+
+export function range(a: number, b: number): number[] {
+	if (b < a) throw new Error('NOT IMPLEMENTED: Cannot make a reverse range')
+	return new Array(b - a + 1).fill(undefined).map((_, i) => a + i)
+}
+
+export function permute<T1, T2>(a1: T1[], a2: T2[]): [T1, T2][] {
+	if (a1.length !== a2.length)
+		throw new Error('Cannot permute arrays of different lengths')
+
+	return a1.flatMap((a) => {
+		return a2.map((b) => [a, b] as [T1, T2])
+	})
+}
+
+export const uniq = <T>(a: Array<T>): Array<T> => [...new Set([...a]).values()]
+
+interface Point {
+	x: number
+	y: number
+}
+export const isInBounds = <T>(grid: T[][], { x, y }: Point): boolean =>
+	x >= 0 && x < grid[0].length && y >= 0 && y < grid.length
+
+export const getNeighbors = <T>(
+	grid: T[][],
+	{ x, y }: Point,
+	orthogonal: boolean = true
+): Array<Point> =>
+	permute(range(-1, 1), range(-1, 1))
+		.filter(([dx, dy]) => !(dx === 0 && dy === 0))
+		.filter(([dx, dy]) => !(orthogonal && Math.abs(dx) === Math.abs(dy)))
+		.map(([dx, dy]) => ({
+			x: x + dx,
+			y: y + dy,
+		}))
+		.filter((p) => isInBounds(grid, p))
