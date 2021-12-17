@@ -44,5 +44,7 @@ test('Part 1', () => {
 })
 
 test('Part 2', () => {
-	expect(part2(smallInput)).toBe(0)
+	expect(part2(smallInput)).toBe(36)
+	expect(part2(mediumInput)).toBe(103)
+	expect(part2(largeInput)).toBe(3509)
 })
