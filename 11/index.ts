@@ -40,11 +40,11 @@ const runStep = (energyLevels: number[][]): number => {
 
 	return numFlashes
 }
+const parseEnergyLevels = (input: string[]): number[][] =>
+	input.map((line) => line.split('').map((x) => parseInt(x, 10)))
+
 export function part1(input: string[]): number {
-	const energyLevels = input.map((line) =>
-		line.split('').map((x) => parseInt(x, 10))
-	)
-	console.log('ENERGY', energyLevels)
+	const energyLevels = parseEnergyLevels(input)
 
 	let numFlashes = 0
 	for (let i = 0; i < 100; i++) {
@@ -54,8 +54,16 @@ export function part1(input: string[]): number {
 	return numFlashes
 }
 
+const allFlashing = (energyLevels: number[][]): boolean =>
+	energyLevels.flatMap((row) => row).every((v) => v === 0)
 export function part2(input: string[]): number {
-	return 0
+	const energyLevels = parseEnergyLevels(input)
+	let i = 0
+	while (!allFlashing(energyLevels)) {
+		runStep(energyLevels)
+		i++
+	}
+	return i
 }
 
 run(() => {
