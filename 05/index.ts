@@ -1,4 +1,4 @@
-import { run, getInputLines } from '../util'
+import { run, getInputLines, serializePoint, deserializePoint } from '../util'
 
 interface Point {
 	x: number
@@ -9,12 +9,6 @@ interface Line {
 	p2: Point
 }
 
-const serializePoint = (p: Point): string => `${p.x},${p.y}`
-const deserializePoint = (s: string): Point => {
-	const r = /(?<x>\d+),(?<y>\d+)/.exec(s)
-	if (!r || !r.groups) throw new Error('Invalid point')
-	return { x: parseInt(r.groups.x, 10), y: parseInt(r.groups.y, 10) }
-}
 const parseLine = (str: string): Line => {
 	const r = /(?<p1>[0-9,]+) -> (?<p2>[0-9,]+)/.exec(str)
 	if (!r || !r.groups) throw new Error('BAD LINE')

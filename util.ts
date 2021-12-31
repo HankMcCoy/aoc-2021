@@ -42,10 +42,21 @@ export function permute<T1, T2>(a1: T1[], a2: T2[]): [T1, T2][] {
 
 export const uniq = <T>(a: Array<T>): Array<T> => [...new Set([...a]).values()]
 
-interface Point {
+export const uniqifyPoints = (points: Point[]): Point[] =>
+	uniq(points.map(serializePoint)).map(deserializePoint)
+
+export interface Point {
 	x: number
 	y: number
 }
+
+export const serializePoint = (p: Point): string => `${p.x},${p.y}`
+export const deserializePoint = (s: string): Point => {
+	const r = /(?<x>\d+),(?<y>\d+)/.exec(s)
+	if (!r || !r.groups) throw new Error('Invalid point')
+	return { x: parseInt(r.groups.x, 10), y: parseInt(r.groups.y, 10) }
+}
+
 export const isInBounds = <T>(grid: T[][], { x, y }: Point): boolean =>
 	x >= 0 && x < grid[0].length && y >= 0 && y < grid.length
 

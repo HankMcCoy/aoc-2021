@@ -1,4 +1,4 @@
-import { run, getInputLines } from '../util'
+import { run, getInputLines, Point } from '../util'
 
 type Grid = number[][]
 
@@ -36,11 +36,6 @@ const getLowPoints = (grid: Grid): Array<Point> => {
 }
 
 const getRiskLevel = (grid: Grid, { x, y }: Point): number => grid[y][x] + 1
-
-interface Point {
-	x: number
-	y: number
-}
 
 export const parseInput = (input: string[]): number[][] =>
 	input.map((line) => line.split('').map((c) => parseInt(c, 10)))
