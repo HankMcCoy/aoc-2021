@@ -1,5 +1,10 @@
-import { isDirective } from '@babel/types'
-import { run, getInputLines, Point, uniqifyPoints } from '../util'
+import {
+	run,
+	getInputLines,
+	Point,
+	uniqifyPoints,
+	serializePoint,
+} from '../util'
 
 type Dir = 'x' | 'y'
 interface Fold {
@@ -13,6 +18,7 @@ export const parseInput = (input: string[]) => {
 	const split = input.indexOf('')
 	const pointLines = input.slice(0, split)
 	const foldInstructions = input.slice(split + 1)
+
 	return {
 		points: pointLines.map((line) => {
 			const [x, y] = line.split(',').map((c) => parseInt(c, 10))
@@ -20,7 +26,7 @@ export const parseInput = (input: string[]) => {
 		}),
 		folds: foldInstructions.map((line) => {
 			const [dir, pos] = line.split(' ').reverse()[0].split('=')
-			if (!isDir(dir)) throw new Error('WTF')
+			if (!isDir(dir)) throw new Error(`Bad direction, ${dir}`)
 			return { dir, pos: parseInt(pos, 10) }
 		}),
 	}
@@ -55,11 +61,31 @@ export function part1(input: string[]): number {
 	return finalPoints.length
 }
 
-export function part2(input: string[]): number {
-	return 0
+const printPoints = (points: Point[]): string => {
+	const maxX = Math.max(...points.map((p) => p.x))
+	const maxY = Math.max(...points.map((p) => p.y))
+
+	const pSet = new Set([...points.map(serializePoint)])
+
+	let result = ''
+	for (let y = 0; y <= maxY; y++) {
+		let line = ''
+		for (let x = 0; x <= maxX; x++) {
+			line += pSet.has(serializePoint({ x, y })) ? '#' : ' '
+		}
+		result += line + '\n'
+	}
+	return result
+}
+export function part2(input: string[]) {
+	const { points, folds } = parseInput(input)
+
+	const finalPoints = applyFolds(points, folds)
+	return printPoints(finalPoints)
 }
 
 run(() => {
-	console.log('Part 1', part1(getInputLines(__dirname)))
-	console.log('Part 2', part2(getInputLines(__dirname)))
+	console.log('Part 1', part1(getInputLines(__dirname, false)))
+	console.log('Part 2')
+	console.log(part2(getInputLines(__dirname, false)))
 })

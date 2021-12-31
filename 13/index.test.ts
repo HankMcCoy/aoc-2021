@@ -67,5 +67,10 @@ test('Part 1', () => {
 })
 
 test('Part 2', () => {
-	expect(part2(input)).toBe(0)
+	expect(part2(input)).toBe(`#####
+#   #
+#   #
+#   #
+#####
+`)
 })
