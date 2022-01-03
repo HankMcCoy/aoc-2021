@@ -14,6 +14,11 @@ export function getInputLines(dir: string, removeEmpty: boolean = true) {
 	return input.split('\n').filter((x) => (removeEmpty ? x : true))
 }
 
+export function splitOnEmpty(lines: string[]): [string[], string[]] {
+	const emptyIdx = lines.indexOf('')
+	return [lines.slice(0, emptyIdx), lines.slice(emptyIdx + 1)]
+}
+
 /**
  * This little utility just doesn't run the function it is given if the process
  * is running in a test environment. This enables me to put my testable pure
@@ -73,3 +78,6 @@ export const getNeighbors = <T>(
 			y: y + dy,
 		}))
 		.filter((p) => isInBounds(grid, p))
+
+export const isNotUndefined = <T>(value: T | undefined): value is T =>
+	value !== undefined
