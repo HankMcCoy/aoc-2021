@@ -32,5 +32,5 @@ test('applyRulesToPair', () => {
 	expect(result).toBe('AC')
 })
 test('Part 2', () => {
-	expect(part2(input)).toBe(0)
+	expect(part2(input)).toBe(2_188_189_693_529)
 })

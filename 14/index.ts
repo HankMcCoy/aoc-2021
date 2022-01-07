@@ -1,4 +1,3 @@
-import { objectExpression } from '@babel/types'
 import { run, getInputLines, splitOnEmpty, isNotUndefined } from '../util'
 
 type RuleSet = Record<string, string>
@@ -7,7 +6,7 @@ function parseRules(lines: string[]): RuleSet {
 	return lines
 		.map((l) => {
 			const regExpResult = /([A-Z]{2}) -> ([A-Z])/.exec(l)
-			if (!regExpResult) throw new Error('What a dumb rule')
+			if (!regExpResult) throw new Error(`What a dumb rule: ${l}`)
 
 			return {
 				pair: regExpResult[1],
@@ -63,6 +62,6 @@ export function part2(input: string[]): number {
 }
 
 run(() => {
-	console.log('Part 1', part1(getInputLines(__dirname)))
-	console.log('Part 2', part2(getInputLines(__dirname)))
+	console.log('Part 1', part1(getInputLines(__dirname, false)))
+	console.log('Part 2', part2(getInputLines(__dirname, false)))
 })
